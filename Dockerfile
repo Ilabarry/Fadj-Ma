@@ -36,12 +36,19 @@ COPY . /var/www/html
 # Se déplacer dans le répertoire de travail
 WORKDIR /var/www/html
 
+# Créer les dossiers Laravel manquants s'ils n'existent pas
+RUN mkdir -p storage storage/framework storage/framework/sessions storage/framework/views storage/framework/cache storage/logs bootstrap/cache
+
 # Définir les permissions
 RUN chown -R www-data:www-data /var/www/html/storage
 RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
+RUN chmod -R 775 storage bootstrap/cache
 
 # Installer les dépendances PHP
 RUN composer install --no-dev --optimize-autoloader
+
+# Configurer Apache pour utiliser le dossier public
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
 
 # Exposer le port 80
 EXPOSE 80
