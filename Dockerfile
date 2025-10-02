@@ -36,10 +36,14 @@ COPY . /var/www/html
 # Se déplacer dans le répertoire de travail
 WORKDIR /var/www/html
 
-# Vérifier si composer.json existe, sinon créer un projet Laravel
+# Vérifier si composer.json existe, sinon afficher une erreur
 RUN if [ ! -f "composer.json" ]; then \
-        composer create-project laravel/laravel . --prefer-dist; \
+        echo "ERREUR: composer.json non trouvé. Assurez-vous d'avoir un projet Laravel valide."; \
+        exit 1; \
     fi
+
+# Installer les dépendances PHP
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Créer les dossiers Laravel manquants s'ils n'existent pas
 RUN mkdir -p storage storage/framework storage/framework/sessions storage/framework/views storage/framework/cache storage/logs bootstrap/cache
@@ -48,14 +52,6 @@ RUN mkdir -p storage storage/framework storage/framework/sessions storage/framew
 RUN chown -R www-data:www-data /var/www/html/storage
 RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
 RUN chmod -R 775 storage bootstrap/cache
-
-# Installer les dépendances PHP (si composer.json existe maintenant)
-RUN if [ -f "composer.json" ]; then \
-        composer install --no-dev --optimize-autoloader --no-scripts; \
-        php artisan config:cache; \
-        php artisan route:cache; \
-        php artisan view:cache; \
-    fi
 
 # Configurer Apache pour utiliser le dossier public
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
