@@ -26,8 +26,8 @@ use App\Http\Controllers\Api\DashboardController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/forgot-password', [PasswordResetController::class, 'forgot']);
-Route::post('/reset-password', [PasswordResetController::class, 'reset']);
+Route::post('/reset-password-direct', [PasswordResetController::class, 'resetDirect']);
+
 
 
 Route::middleware('auth:sanctum')->group(function () {

@@ -68,8 +68,8 @@ function NavMedicaments() {
   };
 
   return (
-    <div className="px-4 py-2 sm:px-8 md:px-16 lg:px-32 xl:px-50 bg-gray-900">
-      <div className="flex h-full bg-gray-100">
+    <div className="px-4 py-2 sm:px-8 md:px-16 lg:px-28 xl:px-50 bg-gray-900">
+      <div className="flex max-h-screen bg-gray-100">
         {/* Sidebar desktop */}
         <div className="hidden lg:flex lg:flex-shrink-0">
           <div className="flex flex-col w-64 bg-gray-700 border-r border-gray-700">
@@ -111,13 +111,13 @@ function NavMedicaments() {
             </nav>
 
             {/* Déconnexion */}
-            <div className="p-4 border-t border-gray-700">
+            <div className="py-4 border-t border-gray-700">
               <div
-                className="flex items-center space-x-3 cursor-pointer hover:bg-blue-400 p-2 rounded-lg transition-colors"
+                className="flex items-center justify-center space-x-3 cursor-pointer hover:bg-gray-600 py-3 rounded-lg transition-colors"
                 onClick={handleDeconnexion}
               >
-                <FileOutput size={20} className="text-white" />
-                <button className="font-medium text-sm text-white">
+                <FileOutput size={30} className="text-white" />
+                <button className="font-medium text-2xl text-white">
                   Déconnexion
                 </button>
               </div>

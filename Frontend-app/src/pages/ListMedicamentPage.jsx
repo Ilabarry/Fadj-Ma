@@ -187,7 +187,7 @@ function Medicaments() {
   }
 
   return (
-    <div className="p-4 sm:p-6 bg-gray-100 min-h-full">
+    <div className="p-4 sm:p-6 bg-gray-100 h-screen">
       {/* En-tête */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
         <div className="flex-1">
@@ -498,103 +498,139 @@ function Medicaments() {
 
       {/* Modal détails */}
       {showDetailsModal && selectedMedicament && (
-        <div className="fixed inset-0 flex items-center justify-center z-[10000] p-2 sm:p-4 bg-black bg-opacity-50">
-          <div className="bg-gray-100 rounded-lg w-full max-w-4xl xl:max-w-6xl h-[90vh] flex flex-col">
-            <div className="flex items-center justify-between p-4 sm:p-6 border-b bg-gray-50">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+        <div className="fixed inset-0 flex items-center justify-center z-[10000] mt-20 p-2  sm:p-4 bg-black bg-opacity-50">
+          <div className="bg-gray-100 rounded-lg w-full max-w-full h-full sm:h-[92vh] sm:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl flex flex-col m-0 sm:m-4">
+            {/* En-tête */}
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b bg-gray-50 rounded-t-lg">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
                 Détails du médicament
               </h2>
               <button
                 onClick={() => setShowDetailsModal(false)}
-                className="text-gray-500 hover:text-gray-700 p-2"
+                className="text-gray-500 hover:text-gray-700 p-1 sm:p-2"
               >
                 <X size={20} className="sm:w-6 sm:h-6" />
               </button>
             </div>
 
-            <div className="overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                <div className="bg-white rounded-lg border p-4 sm:p-6 flex flex-col items-center justify-center">
+            {/* Contenu scrollable */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
+              {/* Grille principale */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
+                {/* Section image */}
+                <div className="bg-white rounded-lg border p-3 sm:p-4 lg:p-6 flex flex-col items-center justify-center">
                   {selectedMedicament.images && selectedMedicament.images.length > 0 ? (
-                    <div className="flex items-center space-x-2 sm:space-x-4">
-                      <button
-                        onClick={handlePrevImage}
-                        className="p-2 hover:bg-gray-200 rounded transition-colors"
-                      >
-                        <ChevronLeft size={24} className="sm:w-8 sm:h-8" />
-                      </button>
+                    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                      <div className="flex items-center space-x-4 sm:space-x-2">
+                        <button
+                          onClick={handlePrevImage}
+                          className="p-2 hover:bg-gray-200 rounded transition-colors"
+                        >
+                          <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
+                        </button>
 
-                      <div className="flex items-center justify-center w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80">
-                        <img
-                          src={`http://localhost:8000/storage/${selectedMedicament.images[currentImageIndex]}`}
-                          alt={selectedMedicament.nom}
-                          className="max-w-full max-h-full object-contain rounded"
-                        />
+                        <div className="flex items-center justify-center w-40 h-40 xs:w-48 xs:h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 xl:w-80 xl:h-80">
+                          <img
+                            src={`http://localhost:8000/storage/${selectedMedicament.images[currentImageIndex]}`}
+                            alt={selectedMedicament.nom}
+                            className="max-w-full max-h-full object-contain rounded"
+                          />
+                        </div>
+
+                        <button
+                          onClick={handleNextImage}
+                          className="p-2 hover:bg-gray-200 rounded transition-colors"
+                        >
+                          <ChevronRight size={20} className="sm:w-6 sm:h-6" />
+                        </button>
                       </div>
-
-                      <button
-                        onClick={handleNextImage}
-                        className="p-2 hover:bg-gray-200 rounded transition-colors"
-                      >
-                        <ChevronRight size={24} className="sm:w-8 sm:h-8" />
-                      </button>
+                      
+                      {/* Indicateur d'image pour mobile */}
+                      {selectedMedicament.images.length > 1 && (
+                        <div className="sm:hidden flex justify-center space-x-2">
+                          {selectedMedicament.images.map((_, index) => (
+                            <div
+                              key={index}
+                              className={`w-2 h-2 rounded-full ${
+                                index === currentImageIndex ? 'bg-blue-500' : 'bg-gray-300'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <div className="text-gray-400 text-center py-8 sm:py-12">
-                      <Pill size={32} className="sm:w-12 sm:h-12 mx-auto mb-2" />
+                      <Pill size={28} className="sm:w-10 sm:h-10 mx-auto mb-2" />
                       <p className="text-sm sm:text-base">Aucune image disponible</p>
                     </div>
                   )}
                 </div>
 
-                <div className="flex flex-col lg:flex-row bg-white rounded-lg border p-4 sm:p-6 space-y-4 lg:space-y-0 lg:space-x-6">
-                  <div className="flex-1">
-                    <h3 className="text-xl sm:text-2xl font-bold mb-4">Médicament : {selectedMedicament.nom}</h3>
+                {/* Section informations */}
+                <div className="bg-white rounded-lg border p-3 sm:p-4 lg:p-6">
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4">
+                    {selectedMedicament.nom}
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    {/* Colonne gauche */}
                     <div className="space-y-3">
                       <div>
-                        <p className="font-semibold text-sm sm:text-base">Composition</p>
-                        <p className="text-gray-700 text-sm sm:text-base">{selectedMedicament.dosage}</p>
+                        <p className="font-semibold text-xs sm:text-sm">Composition</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.dosage}
+                        </p>
                       </div>
                       <div>
-                        <p className="font-semibold text-sm sm:text-base">Fabriquant/commerçant</p>
-                        <p className="text-gray-700 text-sm sm:text-base">
+                        <p className="font-semibold text-xs sm:text-sm">Fabriquant/commerçant</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
                           {selectedMedicament.fabricant || "Non renseigné"}
                         </p>
                       </div>
                       <div>
-                        <p className="font-semibold text-sm sm:text-base">Type de consommation</p>
-                        <p className="text-gray-700 text-sm sm:text-base">
+                        <p className="font-semibold text-xs sm:text-sm">Type de consommation</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
                           {selectedMedicament.type_consommation || "Non renseigné"}
                         </p>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex-1 space-y-3">
-                    <div>
-                      <p className="font-semibold text-sm sm:text-base">Date d'expiration</p>
-                      <p className="text-gray-700 text-sm sm:text-base">
-                        {selectedMedicament.expiration || "Non renseignée"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-sm sm:text-base">Prix</p>
-                      <p className="text-gray-700 text-sm sm:text-base">{selectedMedicament.prix} FCFA</p>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-sm sm:text-base">Stock</p>
-                      <p className="text-gray-700 text-sm sm:text-base">{selectedMedicament.stock}</p>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-sm sm:text-base">Groupe</p>
-                      <p className="text-gray-700 text-sm sm:text-base">{selectedMedicament.groupe}</p>
+
+                    {/* Colonne droite */}
+                    <div className="space-y-3">
+                      <div>
+                        <p className="font-semibold text-xs sm:text-sm">Date d'expiration</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.expiration || "Non renseignée"}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-xs sm:text-sm">Prix</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.prix} FCFA
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-xs sm:text-sm">Stock</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.stock}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-xs sm:text-sm">Groupe</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.groupe}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg border p-4 sm:p-6">
-                <h3 className="text-lg font-semibold mb-2 sm:text-base">Description :</h3>
-                <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
+              {/* Section description */}
+              <div className="bg-white rounded-lg border p-3 sm:p-4 lg:p-6">
+                <h3 className="font-semibold mb-2 text-sm sm:text-base">Description :</h3>
+                <p className="text-gray-700 leading-relaxed text-lg sm:text-lg">
                   {selectedMedicament.description || "Pas de description disponible."}
                 </p>
               </div>

@@ -24,7 +24,7 @@ function Inscription() {
     setErrors({});
     try {
       await api.post("/register", form);
-      alert("Compte créé avec succès !");
+      console.log("Compte créé avec succès !");
       navigate("/");
     } catch (err) {
       if (err.response?.data?.errors) {
@@ -170,7 +170,7 @@ function Inscription() {
 
           <button
             type="submit"
-            className="w-full bg-blue-300 text-gray-800 font-bold py-3 rounded-lg hover:bg-blue-300 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors duration-200 text-lg sm:text-base"
+            className="w-full bg-blue-300 text-gray-800 font-bold py-4 rounded-lg hover:bg-blue-300 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors duration-200 text-lg sm:text-base"
           >
             Créer mon compte
           </button>

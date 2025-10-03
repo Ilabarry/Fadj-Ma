@@ -1,13 +1,23 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { CheckCircle, X } from "lucide-react";
 
 function Connexion() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // État pour "mot de passe oublié"
+  const [showForgotModal, setShowForgotModal] = useState(false);
+  const [resetForm, setResetForm] = useState({
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });
+  const [resetMessage, setResetMessage] = useState("");
+  const [resetSuccess, setResetSuccess] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,14 +27,11 @@ function Connexion() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    
     try {
       const res = await api.post("/login", form);
       localStorage.setItem("token", res.data.token);
-      
-      // Afficher le modal de succès
-      setShowSuccessModal(true);
-      
+      // Navigation directe vers la page mes-medicaments
+      navigate("/mes-medicaments");
     } catch (err) {
       setError(err.response?.data?.message || "Erreur lors de la connexion");
     } finally {
@@ -32,97 +39,201 @@ function Connexion() {
     }
   };
 
-  const handleCloseModal = () => {
-    setShowSuccessModal(false);
+  // Réinitialisation directe du mot de passe
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setResetMessage("");
+    try {
+      const res = await api.post("/reset-password-direct", resetForm);
+      setResetMessage(res.data.message);
+      setResetSuccess(true);
+    } catch (err) {
+      setResetMessage(err.response?.data?.message || "Erreur lors de la réinitialisation");
+      setResetSuccess(false);
+    }
+  };
+
+  const closeResetModal = () => {
+    setShowForgotModal(false);
+    setResetForm({ email: "", password: "", password_confirmation: "" });
+    setResetMessage("");
+    setResetSuccess(false);
   };
 
   return (
-    <div className="px-4 py-6">
-      <div className="max-w-md mx-auto bg-white rounded-xl p-4 sm:p-6 lg:p-8 my-4 sm:my-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800">
+    <div className="min-h-full flex items-center justify-center bg-gray-100 px-4 py-8">
+      <div className="max-w-lg w-full bg-white rounded-2xl shadow-sm p-8 sm:p-10 lg:p-12">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center mb-2 sm:mb-8 text-gray-800">
           Connexion
         </h1>
 
-        <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6 sm:space-y-8" onSubmit={handleSubmit}>
           <div>
-            <label className="text-sm sm:text-base block font-bold mb-2 text-gray-700">
-              Adresse e-mail
-            </label>
+            <label className="block text-lg font-bold mb-3 text-gray-700">Adresse e-mail</label>
             <input
               type="email"
               name="email"
-              placeholder="votre@email.com"
               value={form.email}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+              className="w-full border border-gray-300 rounded-xl p-4 text-lg focus:outline-none focus:ring-3 focus:ring-blue-200 focus:border-blue-400 transition duration-200"
               required
             />
           </div>
+          
           <div>
-            <label className="text-sm sm:text-base block font-bold mb-2 text-gray-700">
-              Mot de passe
-            </label>
+            <label className="block text-lg font-bold mb-3 text-gray-700">Mot de passe</label>
             <input
               type="password"
               name="password"
-              placeholder="Votre mot de passe"
               value={form.password}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+              className="w-full border border-gray-300 rounded-xl p-4 text-lg focus:outline-none focus:ring-3 focus:ring-blue-200 focus:border-blue-400 transition duration-200"
               required
             />
+            <div className="flex justify-end mt-3">
+              <button
+                type="button"
+                onClick={() => setShowForgotModal(true)}
+                className="text-base font-semibold text-gray-800 hover:text-gray-600 transition duration-200 no-underline"
+              >
+                Mot de passe oublié ?
+              </button>
+            </div>
           </div>
-          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+              <p className="text-red-600 text-center font-medium">{error}</p>
+            </div>
+          )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-300 text-gray-800 py-3 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors duration-200 disabled:opacity-50 text-lg font-bold sm:text-base"
+            className="w-full bg-blue-300 text-gray-800 py-4 rounded-xl hover:bg-blue-400 font-bold text-lg transition duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            {loading ? "Connexion..." : "Se connecter"}
+            {loading ? "Connexion en cours..." : "Se connecter"}
           </button>
+
+          <div className="text-center pt-4">
+            <p className="text-gray-600">
+              Pas de compte ?{" "}
+              <Link 
+                to="/inscription" 
+                className="text-blue-500 font-semibold hover:text-blue-600 transition duration-200"
+              >
+                S'inscrire
+              </Link>
+            </p>
+          </div>
         </form>
       </div>
 
-      {/* Modal de succès */}
-      {showSuccessModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
-          <div className="bg-white rounded-lg w-full max-w-md mx-auto p-4 sm:p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-800 flex items-center">
-                <CheckCircle className="text-green-500 mr-2 sm:w-6 sm:h-6" size={20} />
-                Connexion réussie !
-              </h2>
+      {/* Modal mot de passe oublié avec réinitialisation complète */}
+      {showForgotModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl w-full max-w-md p-6 sm:p-8 shadow-2xl">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-800">Réinitialiser le mot de passe</h2>
               <button 
-                onClick={handleCloseModal}
-                className="text-gray-500 hover:text-gray-700"
+                onClick={closeResetModal}
+                className="text-gray-400 hover:text-gray-600 transition duration-200 p-1 rounded-full hover:bg-gray-100"
               >
-                <X size={20} className="sm:w-6 sm:h-6" />
+                <X size={28} />
               </button>
             </div>
-            
-            <div className="text-center py-2 sm:py-4">
-              <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
-                Vous êtes maintenant connecté à votre compte.
-              </p>
-              
-              <div className="space-y-2 sm:space-y-3">
-                <Link
-                  to="/mes-medicaments"
-                  onClick={handleCloseModal}
-                  className="w-full bg-blue-400 text-gray-800 font-semibold py-2 sm:py-3 px-4 sm:px-6 border-2 border-gray-400 rounded-lg hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-colors duration-200 block text-center text-sm sm:text-base"
-                >
-                  Accéder à mes médicaments
-                </Link>
-                
+
+            {!resetSuccess ? (
+              <form onSubmit={handleResetPassword} className="space-y-5">
+                <div>
+                  <label className="block text-lg font-semibold mb-2 text-gray-700">
+                    Adresse e-mail
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={resetForm.email}
+                    onChange={(e) => setResetForm({ ...resetForm, email: e.target.value })}
+                    placeholder="Votre email"
+                    className="w-full border border-gray-300 rounded-xl p-4 text-lg focus:ring-3 focus:ring-blue-200 focus:border-blue-400"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-lg font-semibold mb-2 text-gray-700">
+                    Nouveau mot de passe
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={resetForm.password}
+                    onChange={(e) => setResetForm({ ...resetForm, password: e.target.value })}
+                    placeholder="Nouveau mot de passe"
+                    className="w-full border border-gray-300 rounded-xl p-4 text-lg focus:ring-3 focus:ring-blue-200 focus:border-blue-400"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-lg font-semibold mb-2 text-gray-700">
+                    Confirmation du mot de passe
+                  </label>
+                  <input
+                    type="password"
+                    name="password_confirmation"
+                    value={resetForm.password_confirmation}
+                    onChange={(e) =>
+                      setResetForm({ ...resetForm, password_confirmation: e.target.value })
+                    }
+                    placeholder="Confirmez le mot de passe"
+                    className="w-full border border-gray-300 rounded-xl p-4 text-lg focus:ring-3 focus:ring-blue-200 focus:border-blue-400"
+                    required
+                  />
+                </div>
+
+                {resetMessage && (
+                  <div className={`rounded-xl p-4 ${
+                    resetSuccess ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200"
+                  }`}>
+                    <p className={`text-center font-medium ${
+                      resetSuccess ? "text-green-600" : "text-red-600"
+                    }`}>
+                      {resetMessage}
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex justify-end space-x-4 pt-4">
+                  <button
+                    type="button"
+                    onClick={closeResetModal}
+                    className="px-6 py-3 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition duration-200 font-semibold"
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-3 rounded-xl bg-blue-400 text-white hover:bg-blue-500 transition duration-200 font-semibold"
+                  >
+                    Réinitialiser
+                  </button>
+                </div>
+              </form>
+            ) : (
+              // Message de succès après réinitialisation
+              <div className="text-center py-6">
+                <CheckCircle className="text-green-500 mx-auto mb-4" size={64} />
+                <h3 className="text-2xl font-bold text-gray-800 mb-3">Mot de passe réinitialisé !</h3>
+                <p className="text-gray-600 mb-8 text-lg">Votre mot de passe a été modifié avec succès.</p>
                 <button
-                  onClick={handleCloseModal}
-                  className="w-full border border-gray-400 text-gray-700 font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors duration-200 text-sm sm:text-base"
+                  onClick={closeResetModal}
+                  className="w-full bg-blue-400 text-white py-4 rounded-xl hover:bg-blue-500 transition duration-200 font-bold text-lg"
                 >
-                  Fermer
+                  Se connecter
                 </button>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}

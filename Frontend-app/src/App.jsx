@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LogPage from "./pages/logPage";
 import NavMedicaments from "./component/headerComponent";
-
 function App() {
   return (
     <Router>
