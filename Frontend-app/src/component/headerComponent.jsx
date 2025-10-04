@@ -127,11 +127,11 @@ function NavMedicaments() {
             {/* Déconnexion */}
             <div className="py-4 border-t border-gray-700">
               <div
-                className="flex items-center justify-center space-x-3 cursor-pointer hover:bg-gray-600 py-3 rounded-lg transition-colors"
+                className="flex items-center justify-center space-x-3 cursor-pointer hover:bg-gray-600 py-2 rounded-lg transition-colors"
                 onClick={handleDeconnexion}
               >
-                <FileOutput size={30} className="text-white" />
-                <button className="font-medium text-2xl text-white">
+                <FileOutput size={20} className="text-white" />
+                <button className="font-medium text-xl text-white">
                   Déconnexion
                 </button>
               </div>
@@ -200,13 +200,13 @@ function NavMedicaments() {
           </nav>
 
           {/* Déconnexion mobile */}
-          <div className="absolute bottom-0 left-0 right-0 py-4 border-t hover:bg-blue-400 border-gray-700">
+          <div className="absolute bottom-0 left-0 right-0 py-2 border-t hover:bg-blue-400 border-gray-700">
             <div
               className="flex items-center space-x-3 cursor-pointer rounded-sm transition-colors"
               onClick={handleDeconnexion}
             >
               <FileOutput size={20} className="text-white" />
-              <button className="font-semibold text-xl text-white">
+              <button className="font-semibold text-lg text-white">
                 Déconnexion
               </button>
             </div>
@@ -315,7 +315,7 @@ function SidebarItem({ icon, text, to, active, onClick }) {
     <Link
       to={to}
       onClick={onClick}
-      className={`flex items-center space-x-3 px-3 py-4 rounded-lg transition-colors mx-2 ${
+      className={`flex items-center space-x-3 px-1 py-2 rounded-lg transition-colors mx-2 ${
         active 
           ? 'bg-blue-300 text-white border-r-2 border-blue-300' 
           : 'text-white hover:bg-gray-700'
