@@ -23,11 +23,9 @@ function Inscription() {
     e.preventDefault();
     setErrors({});
     try {
-      // 🔑 Récupérer le cookie CSRF avant register
-      await api.get("/sanctum/csrf-cookie");
-
-      // await api.post("/register", form);
+      // ✅ Direct sans sanctum/csrf-cookie
       await api.post("/api/register", form);
+
       console.log("Compte créé avec succès !");
       navigate("/");
     } catch (err) {

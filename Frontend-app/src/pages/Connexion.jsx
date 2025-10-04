@@ -27,17 +27,13 @@ function Connexion() {
     setError("");
     setLoading(true);
     try {
-      // 🔑 Récupérer le cookie CSRF avant login
-      await api.get("/sanctum/csrf-cookie");
+      // ✅ Login direct sans sanctum/csrf-cookie
+      const response = await api.post("/api/login", form);
 
-      // Login
-      // await api.post("/login", form);
-      await api.post("/api/login", form);
-
-
-      // Accéder à l'utilisateur connecté (optionnel)
-      const user = await api.get("/user");
-      console.log("Utilisateur connecté :", user.data);
+      // 🔑 Sauvegarde du token dans localStorage (si ton backend le retourne)
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
 
       navigate("/mes-medicaments");
     } catch (err) {
