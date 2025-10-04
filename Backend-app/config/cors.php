@@ -19,6 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
+    // URL exacte de ton frontend Vercel
     'allowed_origins' => ['https://fadj-ma.vercel.app'],
 
     'allowed_origins_patterns' => [],
@@ -26,9 +27,9 @@ return [
     'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
-
     'max_age' => 0,
 
+    // ✅ Important pour que les cookies soient acceptés cross-origin
     'supports_credentials' => true,
 
 ];
