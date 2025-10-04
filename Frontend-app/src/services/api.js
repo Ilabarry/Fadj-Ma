@@ -1,17 +1,17 @@
+// services/api.js
 import axios from 'axios';
 
 const API_BASE_URL = 'https://fadj-ma-production.up.railway.app';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
 });
 
-// Intercepteur pour ajouter le token
+// Intercepteur pour les requêtes
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');

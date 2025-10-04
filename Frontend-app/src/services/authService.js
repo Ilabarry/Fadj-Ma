@@ -1,3 +1,4 @@
+// services/authService.js
 import api from './api';
 
 export const authService = {
@@ -13,6 +14,12 @@ export const authService = {
   login: async (credentials) => {
     try {
       const response = await api.post('/api/login', credentials);
+      
+      // Sauvegarder le token si présent
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
+      
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -21,9 +28,20 @@ export const authService = {
 
   logout: async () => {
     try {
-      const response = await api.post('/api/logout');
+      const token = localStorage.getItem('token');
+      const response = await api.post('/api/logout', {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      // Nettoyer le localStorage
+      localStorage.removeItem('token');
+      
       return response.data;
     } catch (error) {
+      // Nettoyer même en cas d'erreur
+      localStorage.removeItem('token');
       throw error.response?.data || error;
     }
   },
