@@ -86,7 +86,7 @@ function NavMedicaments() {
       <div className="flex max-h-screen bg-gray-100">
         {/* Sidebar desktop */}
         <div className="hidden lg:flex lg:flex-shrink-0">
-          <div className="flex flex-col w-64 bg-gray-700 border-r border-gray-700">
+          <div className="flex flex-col w-52 bg-gray-700 border-r border-gray-700">
             <div className="flex items-center justify-center h-16 px-4 border-b bg-gray-800 border-gray-700">
               <h1 className="text-xl font-bold text-white">Fadj-Ma</h1>
             </div>
