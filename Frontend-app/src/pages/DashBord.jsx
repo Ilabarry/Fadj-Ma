@@ -73,7 +73,7 @@ function TableauDeBord() {
   }
 
   return (
-    <div className="min-h-full bg-gray-100 p-4 sm:p-6 lg:p-6">
+    <div className="min-h-full bg-gray-100 py-4 px-2 sm:p-6 lg:p-6">
       {/* En-tête */}
       <div className="mb-6 lg:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex-1">
@@ -97,7 +97,7 @@ function TableauDeBord() {
             </div>
             <h3 className="font-bold text-gray-700 text-center text-lg sm:text-xl">Bien</h3>
             <p className="text-center text-gray-600 text-sm sm:text-base">Statut de l'inventaire</p>
-            <button className="flex justify-center items-center w-full bg-green-300 text-gray-600 border border-green-400 py-2 px-1 rounded hover:text-white transition-colors text-sm lg:xs sm:text-base gap-1">
+            <button className="flex justify-center items-center w-full bg-green-300 text-gray-600 border border-green-400 py-2 px-1 rounded hover:text-white transition-colors text-sm sm:text-base gap-1">
               Afficher le rapport détaillé <ChevronsRight size={16} />
             </button>
           </div>
