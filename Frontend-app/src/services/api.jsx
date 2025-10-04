@@ -8,7 +8,7 @@ const api = axios.create({
   // },
 
   
-  baseURL: "https://fadj-ma-production.up.railway.app/api", // ton backend Railway
+  baseURL: "https://fadj-ma-production.up.railway.app", // ton backend Railway
   withCredentials: true, // essentiel pour que les cookies Laravel fonctionnent
   headers: {
     "Content-Type": "application/json",
