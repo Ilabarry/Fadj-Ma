@@ -20,26 +20,45 @@ function NavMedicaments() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ infos utilisateur connecté
+  const API_URL = "https://fadj-ma-production.up.railway.app/api";
+
+  // ✅ Infos utilisateur connecté
   const [user, setUser] = useState({ prenom: "", nom: "" });
+
+  // ✅ Stats dashboard
+  const [stats, setStats] = useState({
+    medicaments_total: 0,
+    groupes_total: 0,
+    medicaments_disponibles: 0,
+    utilisateurs_total: 0,
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      axios
-        .get("http://127.0.0.1:8000/api/user", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          setUser(res.data);
-        })
-        .catch(() => {
-          console.log("Erreur lors du chargement du profil utilisateur");
+      // CSRF cookie
+      axios.get(`${API_URL}/sanctum/csrf-cookie`, { withCredentials: true })
+        .then(() => {
+          // Requête utilisateur
+          axios.get(`${API_URL}/user`, {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true
+          })
+          .then(res => setUser(res.data))
+          .catch(err => console.log("Erreur profil utilisateur:", err));
+
+          // Requête stats dashboard
+          axios.get(`${API_URL}/dashboard-stats`, {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true
+          })
+          .then(res => setStats(res.data))
+          .catch(err => console.log("Erreur chargement stats:", err));
         });
     }
   }, []);
 
-  // ✅ langues disponibles
+  // ✅ Langues disponibles
   const languages = [
     { code: "fr", name: "Français", flag: "🇫🇷" },
     { code: "en", name: "English", flag: "🇬🇧" },
@@ -47,14 +66,14 @@ function NavMedicaments() {
   ];
   const [language, setLanguage] = useState("fr");
 
-  // ✅ gestion de la date et heure
+  // ✅ gestion date et heure
   const [dateTime, setDateTime] = useState(new Date());
   useEffect(() => {
     const interval = setInterval(() => setDateTime(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
 
-  // ✅ Déconnexion avec confirmation
+  // ✅ Déconnexion
   const handleDeconnexion = () => {
     if (window.confirm("Voulez-vous vraiment vous déconnecter ?")) {
       localStorage.removeItem("token");
@@ -62,10 +81,8 @@ function NavMedicaments() {
     }
   };
 
-  // Fonction pour fermer la sidebar sur mobile
-  const handleNavClick = () => {
-    setSidebarOpen(false);
-  };
+  // Sidebar mobile toggle
+  const handleNavClick = () => setSidebarOpen(false);
 
   return (
     <div className="px-4 py-2 sm:px-8 md:px-16 lg:px-28 xl:px-50 bg-gray-900">
@@ -152,8 +169,7 @@ function NavMedicaments() {
               <X size={24} />
             </button>
           </div>
-          
-          {/* Profil mobile */}
+
           <div className="p-4 border-b border-gray-700">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-teal-500 rounded-full flex items-center justify-center">
@@ -185,7 +201,6 @@ function NavMedicaments() {
             />
           </nav>
 
-          {/* Déconnexion mobile */}
           <div className="absolute bottom-0 left-0 right-0 py-4 border-t hover:bg-blue-400 border-gray-700">
             <div
               className="flex items-center space-x-3 cursor-pointer rounded-sm transition-colors"
@@ -204,7 +219,6 @@ function NavMedicaments() {
           {/* Header */}
           <header className="bg-white border-b border-gray-200">
             <div className="flex items-center justify-between h-16 px-3 sm:px-4">
-              {/* Bouton mobile + recherche */}
               <div className="flex items-center flex-1 min-w-0">
                 <button
                   className="lg:hidden p-2 rounded-md text-gray-600 mr-2"
@@ -213,7 +227,6 @@ function NavMedicaments() {
                   <Menu size={20} />
                 </button>
 
-                {/* Recherche */}
                 <div className="relative flex-1 max-w-md">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Search size={16} className="text-gray-400" />
@@ -226,9 +239,7 @@ function NavMedicaments() {
                 </div>
               </div>
 
-              {/* Contrôles de droite */}
               <div className="flex items-center space-x-10 sm:space-x-6">
-                {/* Sélecteur de langue  */}
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Globe size={16} className="text-gray-400" />
@@ -256,7 +267,6 @@ function NavMedicaments() {
                   </div>
                 </div>
 
-                {/* Date et heure  */}
                 <div className="hidden md:flex items-center">
                   <div className="text-right">
                     <p className="text-xl font-bold text-gray-700 flex items-center">
@@ -264,17 +274,9 @@ function NavMedicaments() {
                       <span className="hidden sm:inline">Bonjour</span>
                     </p>
                     <p className="fles text-lg font-semibold text-gray-500">
-                      {dateTime.toLocaleDateString("fr-FR", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
+                      {dateTime.toLocaleDateString("fr-FR", { year: "numeric", month: "short", day: "numeric" })}
                       <span className="mx-1 text-yellow-400">.</span>
-                      {dateTime.toLocaleTimeString("fr-FR", {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit'
-                      })}
+                      {dateTime.toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                     </p>
                   </div>
                 </div>
@@ -285,7 +287,7 @@ function NavMedicaments() {
           {/* Routes */}
           <main className="flex-1 overflow-y-auto bg-gray-100">
             <Routes>
-              <Route path="/" element={<TableauDeBord />} />
+              <Route path="/" element={<TableauDeBord stats={stats} />} />
               <Route path="/medicaments" element={<Medicaments />} />
             </Routes>
           </main>
@@ -295,7 +297,7 @@ function NavMedicaments() {
   );
 }
 
-// SidebarItem avec indication active - CORRIGÉ avec bg-blue-400
+// SidebarItem avec indication active
 function SidebarItem({ icon, text, to, active, onClick }) {
   return (
     <Link
