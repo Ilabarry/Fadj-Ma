@@ -515,98 +515,98 @@ function Medicaments() {
       )}
 
       {/* ✅ STRUCTURE PRINCIPALE POUR LES DÉTAILS - NE PAS MODIFIER */}
-{showDetailsModal && selectedMedicament && (
-  <div className="fixed inset-0 flex items-center justify-center z-[10000] mt-20 p-2 lg:px-24 sm:px-12 bg-black bg-opacity-50">
-    <div className="bg-gray-100 rounded-lg w-full h-full sm:h-[92vh] sm:max-w-screen-xl xl:max-w-screen-2xl flex flex-col m-0 sm:m-4">
-      
-      {/* En-tête */}
-      <div className="flex items-center justify-between p-4 sm:p-6 border-b bg-gray-50 rounded-t-lg">
-        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
-          Détails du médicament
-        </h2>
-        <button
-          onClick={() => setShowDetailsModal(false)}
-          className="text-gray-500 hover:text-gray-700 p-1 sm:p-2"
-        >
-          <X size={20} className="sm:w-6 sm:h-6" />
-        </button>
-      </div>
+      {showDetailsModal && selectedMedicament && (
+        <div className="fixed inset-0 flex items-center justify-center z-[10000] mt-20 p-2 lg:px-24 sm:px-12 bg-black bg-opacity-50">
+          <div className="bg-gray-100 rounded-lg w-full h-full sm:h-[92vh] sm:max-w-screen-xl xl:max-w-screen-2xl flex flex-col m-0 sm:m-4">
+            
+            {/* En-tête */}
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b bg-gray-50 rounded-t-lg">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
+                Détails du médicament
+              </h2>
+              <button
+                onClick={() => setShowDetailsModal(false)}
+                className="text-gray-500 hover:text-gray-700 p-1 sm:p-2"
+              >
+                <X size={20} className="sm:w-6 sm:h-6" />
+              </button>
+            </div>
 
-      {/* Contenu scrollable */}
-      <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 space-y-6">
-        
-        {/* ✅ LIGNE 1 : Section image + Section informations */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Section image */}
-          <div className="bg-white rounded-lg border p-6 flex items-center justify-center">
-            {selectedMedicament.images && selectedMedicament.images.length > 0 ? (
-              <div className="flex items-center space-x-4">
-                <button
-                  onClick={handlePrevImage}
-                  className="p-2 hover:bg-gray-200 rounded transition-colors"
-                >
-                  <ChevronLeft size={20} />
-                </button>
+            {/* Contenu scrollable */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 space-y-6">
+              
+              {/* ✅ LIGNE 1 : Section image + Section informations */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Section image */}
+                <div className="bg-white rounded-lg border p-6 flex items-center justify-center">
+                  {selectedMedicament.images && selectedMedicament.images.length > 0 ? (
+                    <div className="flex items-center space-x-4">
+                      <button
+                        onClick={handlePrevImage}
+                        className="p-2 hover:bg-gray-200 rounded transition-colors"
+                      >
+                        <ChevronLeft size={20} />
+                      </button>
 
-                <div className="w-64 h-64 flex items-center justify-center">
-                  <img
-                    src={getImageUrl(selectedMedicament.images[currentImageIndex])}
-                    alt={selectedMedicament.nom}
-                    className="max-w-full max-h-full object-contain rounded"
-                  />
+                      <div className="w-64 h-64 flex items-center justify-center">
+                        <img
+                          src={getImageUrl(selectedMedicament.images[currentImageIndex])}
+                          alt={selectedMedicament.nom}
+                          className="max-w-full max-h-full object-contain rounded"
+                        />
+                      </div>
+
+                      <button
+                        onClick={handleNextImage}
+                        className="p-2 hover:bg-gray-200 rounded transition-colors"
+                      >
+                        <ChevronRight size={20} />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-gray-400 text-center py-12">
+                      <Pill size={28} className="mx-auto mb-2" />
+                      <p className="text-sm">Aucune image disponible</p>
+                    </div>
+                  )}
                 </div>
 
-                <button
-                  onClick={handleNextImage}
-                  className="p-2 hover:bg-gray-200 rounded transition-colors"
-                >
-                  <ChevronRight size={20} />
-                </button>
+                {/* Section informations */}
+                <div className="bg-white rounded-lg border p-6">
+                  <h3 className="text-xl font-bold mb-4">{selectedMedicament.nom}</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <p className="font-semibold text-sm">Composition</p>
+                      <p className="text-gray-700">{selectedMedicament.dosage}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm">Prix</p>
+                      <p className="text-gray-700">{selectedMedicament.prix} FCFA</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm">Stock</p>
+                      <p className="text-gray-700">{selectedMedicament.stock}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm">Groupe</p>
+                      <p className="text-gray-700">{selectedMedicament.groupe}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            ) : (
-              <div className="text-gray-400 text-center py-12">
-                <Pill size={28} className="mx-auto mb-2" />
-                <p className="text-sm">Aucune image disponible</p>
-              </div>
-            )}
-          </div>
 
-          {/* Section informations */}
-          <div className="bg-white rounded-lg border p-6">
-            <h3 className="text-xl font-bold mb-4">{selectedMedicament.nom}</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <p className="font-semibold text-sm">Composition</p>
-                <p className="text-gray-700">{selectedMedicament.dosage}</p>
+              {/* ✅ LIGNE 2 : Section description (100% largeur) */}
+              <div className="bg-white rounded-lg border p-6">
+                <h3 className="font-semibold mb-2">Description :</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  {selectedMedicament.description || "Pas de description disponible."}
+                </p>
               </div>
-              <div>
-                <p className="font-semibold text-sm">Prix</p>
-                <p className="text-gray-700">{selectedMedicament.prix} FCFA</p>
-              </div>
-              <div>
-                <p className="font-semibold text-sm">Stock</p>
-                <p className="text-gray-700">{selectedMedicament.stock}</p>
-              </div>
-              <div>
-                <p className="font-semibold text-sm">Groupe</p>
-                <p className="text-gray-700">{selectedMedicament.groupe}</p>
-              </div>
+
             </div>
           </div>
         </div>
-
-        {/* ✅ LIGNE 2 : Section description (100% largeur) */}
-        <div className="bg-white rounded-lg border p-6">
-          <h3 className="font-semibold mb-2">Description :</h3>
-          <p className="text-gray-700 leading-relaxed">
-            {selectedMedicament.description || "Pas de description disponible."}
-          </p>
-        </div>
-
-      </div>
-    </div>
-  </div>
-)}
+      )}
 
     </div>
   );
