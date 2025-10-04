@@ -6,7 +6,7 @@ import {
   ShieldPlus,
   TabletSmartphone
 } from "lucide-react";
-import api from "../services/api";
+import { authService } from "../services/authService"; // ✅ Importer le service
 
 function TableauDeBord() {
   const [stats, setStats] = useState({
@@ -16,15 +16,61 @@ function TableauDeBord() {
     utilisateurs_total: 0,
   });
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    api.get("/dashboard-stats")
-      .then((res) => {
-        setStats(res.data);
-      })
-      .catch((err) => {
+    const loadStats = async () => {
+      try {
+        setLoading(true);
+        const data = await authService.getDashboardStats(); // ✅ Utiliser le service
+        setStats(data);
+        setError(null);
+      } catch (err) {
         console.error("Erreur lors du chargement des stats :", err);
-      });
+        setError("Impossible de charger les statistiques");
+        // Valeurs par défaut en cas d'erreur
+        setStats({
+          medicaments_disponibles: 0,
+          medicaments_total: 0,
+          groupes_total: 0,
+          utilisateurs_total: 0,
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadStats();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-full bg-gray-100 p-4 sm:p-6 lg:p-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Chargement des statistiques...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-full bg-gray-100 p-4 sm:p-6 lg:p-6 flex items-center justify-center">
+        <div className="text-center">
+          <TriangleAlert className="mx-auto text-red-500 mb-4" size={48} />
+          <p className="text-red-600 text-lg">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+          >
+            Réessayer
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-full bg-gray-100 p-4 sm:p-6 lg:p-6">
@@ -35,7 +81,7 @@ function TableauDeBord() {
           <p className="text-gray-600 text-sm sm:text-base">Un aperçu rapide des données de votre pharmacie</p>
         </div>
         <div className="flex-shrink-0">
-          <button className="w-full sm:w-auto border border-gray-500 py-2 px-4 sm:px-6 rounded-lg bg-white text-sm sm:text-base">
+          <button className="w-full sm:w-auto border border-gray-500 py-2 px-4 sm:px-6 rounded-lg bg-white text-sm sm:text-base hover:bg-gray-50">
             Télécharger le rapport
           </button>
         </div>
@@ -50,7 +96,7 @@ function TableauDeBord() {
               <ShieldPlus size={32} className="sm:w-10 sm:h-10" />
             </div>
             <h3 className="font-bold text-gray-700 text-center text-lg sm:text-xl">Bien</h3>
-            <p className="text-center text-gray-600 text-sm sm:text-base">Statu de l'inventaire</p>
+            <p className="text-center text-gray-600 text-sm sm:text-base">Statut de l'inventaire</p>
             <button className="flex justify-center items-center w-full bg-green-300 text-gray-600 border border-green-400 py-2 px-1 rounded hover:text-white transition-colors text-sm sm:text-base gap-1">
               Afficher le rapport détaillé <ChevronsRight size={16} />
             </button>
@@ -66,7 +112,7 @@ function TableauDeBord() {
             <h3 className="font-bold text-gray-700 text-center text-lg sm:text-xl">4.800.432</h3>
             <p className="text-center text-gray-600 text-sm sm:text-base"><b>revenu:</b> Janvier 2022</p>
             <button className="flex justify-center items-center w-full bg-yellow-300 text-gray-600 border border-yellow-400 py-2 px-1 rounded hover:text-white transition-colors text-sm sm:text-base gap-1">
-              Afficher le rapport detaillé <ChevronsRight size={16} />
+              Afficher le rapport détaillé <ChevronsRight size={16} />
             </button>
           </div>
         </div>
@@ -115,13 +161,13 @@ function TableauDeBord() {
               <h3 className="text-2xl font-bold text-gray-800 mb-2">
                 {stats.medicaments_total}
               </h3>
-              <p className="text-sm text-gray-600">Nombres totale de medicaments</p>
+              <p className="text-sm text-gray-600">Nombre total de médicaments</p>
             </div>
             <div className="text-center sm:text-left">
               <h3 className="text-2xl font-bold text-gray-800 mb-2">
                 {stats.groupes_total}
               </h3>
-              <p className="text-sm text-gray-600">Groupe de médcine</p>
+              <p className="text-sm text-gray-600">Groupes de médicaments</p>
             </div>
           </div>
         </div>
@@ -135,7 +181,7 @@ function TableauDeBord() {
           <div className="flex flex-col sm:flex-row justify-between p-4 sm:p-6 gap-4">
             <div className="text-center sm:text-left">
               <h3 className="text-2xl font-bold text-gray-800 mb-2">70 856</h3>
-              <p className="text-sm text-gray-600">Quantité de médicaments v...</p>
+              <p className="text-sm text-gray-600">Quantité de médicaments vendus</p>
             </div>
             <div className="text-center sm:text-left">
               <h3 className="text-2xl font-bold text-gray-800 mb-2">5 288</h3>
@@ -151,18 +197,18 @@ function TableauDeBord() {
         <div className="bg-white rounded-lg shadow-sm border-2 border-gray-400">
           <div className="flex flex-col sm:flex-row sm:justify-between p-4 sm:px-6 gap-2 border-b border-gray-400">
             <h3 className="text-lg font-bold text-gray-800">Ma pharmacie</h3>
-            <p className="text-sm text-gray-600 sm:text-right">Accedez à la gestiuon des utilisateurs</p>
+            <p className="text-sm text-gray-600 sm:text-right">Accédez à la gestion des utilisateurs</p>
           </div> 
           <div className="flex flex-col sm:flex-row justify-between p-4 sm:p-6 gap-4">
             <div className="text-center sm:text-left">
               <h3 className="text-2xl font-bold text-gray-800 mb-2">04</h3>
-              <p className="text-sm text-gray-600">Nombres totale de fournisseurs</p>
+              <p className="text-sm text-gray-600">Nombre total de fournisseurs</p>
             </div>
             <div className="text-center sm:text-left">
               <h3 className="text-2xl font-bold text-gray-800 mb-2">
                 {stats.utilisateurs_total}
               </h3>
-              <p className="text-sm text-gray-600">Nombres totale d'utilisateurs</p>
+              <p className="text-sm text-gray-600">Nombre total d'utilisateurs</p>
             </div>
           </div>
         </div>
@@ -176,11 +222,11 @@ function TableauDeBord() {
           <div className="flex flex-col sm:flex-row justify-between p-4 sm:p-6 gap-4">
             <div className="text-center sm:text-left">
               <h3 className="text-2xl font-bold text-gray-800 mb-2">845</h3>
-              <p className="text-sm text-gray-600">Nombres totale de clients</p>
+              <p className="text-sm text-gray-600">Nombre total de clients</p>
             </div>
             <div className="text-center sm:text-left">
               <h3 className="text-2xl font-bold text-gray-800 mb-2">Adalimumab</h3>
-              <p className="text-sm text-gray-600">Article fréquement...</p>
+              <p className="text-sm text-gray-600">Article fréquemment acheté</p>
             </div>
           </div>
         </div>
