@@ -517,7 +517,7 @@ function Medicaments() {
       {/* ✅ STRUCTURE PRINCIPALE POUR LES DÉTAILS - NE PAS MODIFIER */}
       {showDetailsModal && selectedMedicament && (
         <div className="fixed inset-0 flex items-center justify-center z-[10000] mt-20 p-2 lg:px-24  sm:px-12 bg-black bg-opacity-50">
-          <div className="bg-gray-100 rounded-lg w-full max-w-full h-full sm:h-[92vh] sm:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl flex flex-col m-0 sm:m-4">
+          <div className="bg-gray-100 rounded-lg w-full max-w-full h-full sm:h-[92vh] sm:max-w-screen-lg lg:max-w-screen-12xl xl:max-w-screen-2xl flex flex-col m-0 sm:m-4">
             {/* En-tête */}
             <div className="flex items-center justify-between p-4 sm:p-6 border-b bg-gray-50 rounded-t-lg">
               <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
