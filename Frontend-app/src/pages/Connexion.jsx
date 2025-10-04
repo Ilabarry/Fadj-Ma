@@ -9,7 +9,6 @@ function Connexion() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // État pour "mot de passe oublié"
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [resetForm, setResetForm] = useState({
     email: "",
@@ -28,9 +27,16 @@ function Connexion() {
     setError("");
     setLoading(true);
     try {
-      const res = await api.post("/login", form);
-      localStorage.setItem("token", res.data.token);
-      // Navigation directe vers la page mes-medicaments
+      // 🔑 Récupérer le cookie CSRF avant login
+      await api.get("/sanctum/csrf-cookie");
+
+      // Login
+      await api.post("/login", form);
+
+      // Accéder à l'utilisateur connecté (optionnel)
+      const user = await api.get("/user");
+      console.log("Utilisateur connecté :", user.data);
+
       navigate("/mes-medicaments");
     } catch (err) {
       setError(err.response?.data?.message || "Erreur lors de la connexion");
@@ -39,13 +45,12 @@ function Connexion() {
     }
   };
 
-  // Réinitialisation directe du mot de passe
   const handleResetPassword = async (e) => {
     e.preventDefault();
     setResetMessage("");
     try {
-      const res = await api.post("/reset-password-direct", resetForm);
-      setResetMessage(res.data.message);
+      await api.post("/reset-password-direct", resetForm);
+      setResetMessage("Mot de passe réinitialisé avec succès !");
       setResetSuccess(true);
     } catch (err) {
       setResetMessage(err.response?.data?.message || "Erreur lors de la réinitialisation");
@@ -129,7 +134,6 @@ function Connexion() {
         </form>
       </div>
 
-      {/* Modal mot de passe oublié avec réinitialisation complète */}
       {showForgotModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl w-full max-w-md p-6 sm:p-8 shadow-2xl">
@@ -221,7 +225,6 @@ function Connexion() {
                 </div>
               </form>
             ) : (
-              // Message de succès après réinitialisation
               <div className="text-center py-6">
                 <CheckCircle className="text-green-500 mx-auto mb-4" size={64} />
                 <h3 className="text-2xl font-bold text-gray-800 mb-3">Mot de passe réinitialisé !</h3>

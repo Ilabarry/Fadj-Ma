@@ -23,6 +23,9 @@ function Inscription() {
     e.preventDefault();
     setErrors({});
     try {
+      // 🔑 Récupérer le cookie CSRF avant register
+      await api.get("/sanctum/csrf-cookie");
+
       await api.post("/register", form);
       console.log("Compte créé avec succès !");
       navigate("/");
@@ -43,7 +46,6 @@ function Inscription() {
         </h1>
 
         <form className="space-y-6 sm:space-y-8" onSubmit={handleSubmit}>
-          {/* Genre - Corrigé pour alignement horizontal */}
           <div>
             <div className="flex flex-row justify-center space-x-8 sm:space-x-12">
               <label className="flex items-center space-x-3 cursor-pointer p-3 rounded-lg hover:bg-gray-50 transition-colors">
@@ -74,7 +76,6 @@ function Inscription() {
             )}
           </div>
 
-          {/* Prénom & Nom */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block mb-2 text-gray-700 text-sm sm:text-base font-bold">
@@ -106,7 +107,6 @@ function Inscription() {
             </div>
           </div>
 
-          {/* Date de naissance */}
           <div>
             <label className="block text-sm sm:text-base font-bold mb-2 text-gray-700">
               Date de naissance
@@ -121,7 +121,6 @@ function Inscription() {
             {errors.date_naissance && <p className="text-red-500 text-sm mt-1">{errors.date_naissance[0]}</p>}
           </div>
 
-          {/* Email & Password */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block text-sm sm:text-base font-bold mb-2 text-gray-700">
@@ -153,7 +152,6 @@ function Inscription() {
             </div>
           </div>
 
-          {/* Password confirmation */}
           <div>
             <label className="block text-sm sm:text-base font-bold mb-2 text-gray-700">
               Confirmer le mot de passe
