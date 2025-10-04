@@ -72,7 +72,6 @@ function Medicaments() {
       const data = await medicamentService.getAll();
       console.log("Données reçues:", data);
       
-      // Gérer différents formats de réponse
       if (data.data) {
         setMedicaments(data.data);
       } else if (Array.isArray(data)) {
@@ -116,14 +115,12 @@ function Medicaments() {
     try {
       const form = new FormData();
       
-      // Ajouter les champs texte
       Object.keys(formData).forEach((key) => {
         if (key !== "images" && formData[key] !== null && formData[key] !== "") {
           form.append(key, formData[key]);
         }
       });
 
-      // Ajouter les images
       if (formData.images && formData.images.length > 0) {
         formData.images.forEach((image) => {
           form.append("images[]", image);
@@ -143,7 +140,6 @@ function Medicaments() {
         images: [],
       });
 
-      // Recharger la liste
       fetchMedicaments();
     } catch (error) {
       console.error("Erreur lors de l'ajout :", error);
@@ -175,24 +171,17 @@ function Medicaments() {
     }
   };
 
-  // Fonction pour construire l'URL de l'image
   const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
-    
-    // Si c'est une URL complète
     if (imagePath.startsWith('http')) return imagePath;
-    
-    // Si c'est un chemin relatif
     const baseUrl = 'https://fadj-ma-production.up.railway.app';
     return `${baseUrl}/storage/${imagePath}`;
   };
 
-  // ✅ CORRECTION: Cette variable est maintenant utilisée dans le JSX
   const selectedFilesText = formData.images.length > 0 
     ? `${formData.images.length} fichier(s) sélectionné(s)`
     : "Aucun fichier sélectionné";
 
-  // Afficher les erreurs
   if (error && medicaments.length === 0) {
     return (
       <div className="p-4 sm:p-6 bg-gray-100 min-h-screen">
@@ -231,7 +220,6 @@ function Medicaments() {
         </button>
       </div>
 
-      {/* Afficher les erreurs non bloquantes */}
       {error && medicaments.length > 0 && (
         <div className="mb-4 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
           <p>{error}</p>
@@ -349,27 +337,29 @@ function Medicaments() {
         )}
       </div>
 
-      {/* Modal Ajout médicament */}
+      {/* ✅ STRUCTURE PRINCIPALE POUR LE FORMULAIRE - NE PAS MODIFIER */}
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-2 sm:p-4">
           <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-xl font-bold text-gray-800">Nouveau médicament</h2>
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b sticky top-0 bg-white">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">
+                Nouveau médicament
+              </h2>
               <button
                 onClick={() => setShowForm(false)}
                 className="text-gray-500 hover:text-gray-700"
               >
-                <X size={24} />
+                <X size={20} className="sm:w-6 sm:h-6" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6">
+            <form onSubmit={handleSubmit} className="p-4 sm:p-6">
               {/* Section Upload images */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-4">
                   Ajouter des images
                 </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors">
+                <div className="shadow-lg border-2 border-gray-300 rounded-lg p-4 sm:p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors w-full">
                   <input
                     type="file"
                     name="images"
@@ -381,7 +371,7 @@ function Medicaments() {
                   />
                   <label htmlFor="images-upload" className="cursor-pointer block">
                     <div className="text-gray-400 mb-3">
-                      <Plus size={32} className="mx-auto" />
+                      <Plus size={24} className="sm:w-8 sm:h-8 mx-auto" />
                     </div>
                     <p className="text-sm text-gray-600 mb-2">
                       Cliquez pour ajouter des images ou glissez-déposez
@@ -392,7 +382,7 @@ function Medicaments() {
                   </label>
                 </div>
                 {formData.images.length > 0 && (
-                  <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="mt-3 p-3 bg-gray-200 rounded-lg border border-blue-200">
                     <p className="text-sm text-blue-700 font-medium">
                       {selectedFilesText}
                     </p>
@@ -407,9 +397,12 @@ function Medicaments() {
 
               {/* Section obligatoire */}
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-gray-800 mb-4">
-                  Informations obligatoires
+                <h3 className="text-xl font-bold text-gray-800 mb-4">
+                  obligatoires
                 </h3>
+                <p className="text-lg text-gray-600 mb-4">
+                  Donnez plus de details possible
+                </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   <div>
@@ -421,7 +414,7 @@ function Medicaments() {
                       name="nom"
                       value={formData.nom}
                       onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none text-sm sm:text-base"
                       required
                     />
                   </div>
@@ -434,7 +427,7 @@ function Medicaments() {
                       name="description"
                       value={formData.description}
                       onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none text-sm sm:text-base"
                       required
                     />
                   </div>
@@ -450,7 +443,7 @@ function Medicaments() {
                       name="dosage"
                       value={formData.dosage}
                       onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none text-sm sm:text-base"
                       required
                     />
                   </div>
@@ -463,7 +456,7 @@ function Medicaments() {
                       name="prix"
                       value={formData.prix}
                       onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none text-sm sm:text-base"
                       required
                     />
                   </div>
@@ -479,7 +472,7 @@ function Medicaments() {
                       name="groupe"
                       value={formData.groupe}
                       onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none text-sm sm:text-base"
                       required
                     />
                   </div>
@@ -492,25 +485,25 @@ function Medicaments() {
                       name="stock"
                       value={formData.stock}
                       onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-300 focus:outline-none text-sm sm:text-base"
                       required
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-3 pt-4 border-t">
+              <div className="flex flex-col sm:flex-row justify-around space-y-3 sm:space-y-0 sm:space-x-3 pt-4 border-t">
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="px-6 py-2 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-4 lg:px-8 sm:px-6 py-2 font-bold border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-xl xl:text-base"
                   disabled={formSubmitting}
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 sm:px-6 py-2 bg-blue-300 text-gray-800 rounded-lg hover:bg-blue-300 font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                   disabled={formSubmitting}
                 >
                   {formSubmitting ? "Enregistrement..." : "Enregistrer"}
@@ -521,42 +514,44 @@ function Medicaments() {
         </div>
       )}
 
-      {/* Modal détails */}
+      {/* ✅ STRUCTURE PRINCIPALE POUR LES DÉTAILS - NE PAS MODIFIER */}
       {showDetailsModal && selectedMedicament && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 p-4 bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-xl font-bold text-gray-800">Détails du médicament</h2>
+        <div className="fixed inset-0 flex items-center justify-center z-[10000] mt-20 p-2 lg:px-24  sm:px-12 bg-black bg-opacity-50">
+          <div className="bg-gray-100 rounded-lg w-full max-w-full h-full sm:h-[92vh] sm:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl flex flex-col m-0 sm:m-4">
+            {/* En-tête */}
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b bg-gray-50 rounded-t-lg">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
+                Détails du médicament
+              </h2>
               <button
                 onClick={() => setShowDetailsModal(false)}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700 p-1 sm:p-2"
               >
-                <X size={24} />
+                <X size={20} className="sm:w-6 sm:h-6" />
               </button>
             </div>
 
-            <div className="p-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Contenu scrollable */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
+              {/* Grille principale */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
                 {/* Section image */}
-                <div className="bg-gray-50 rounded-lg p-6 flex flex-col items-center justify-center">
+                <div className="bg-white rounded-lg border p-3 sm:p-4 lg:p-6 flex flex-col items-center justify-center">
                   {selectedMedicament.images && selectedMedicament.images.length > 0 ? (
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="flex items-center space-x-4">
+                    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                      <div className="flex items-center space-x-4 sm:space-x-2">
                         <button
                           onClick={handlePrevImage}
                           className="p-2 hover:bg-gray-200 rounded transition-colors"
                         >
-                          <ChevronLeft size={24} />
+                          <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
                         </button>
 
-                        <div className="w-64 h-64 flex items-center justify-center">
+                        <div className="flex items-center justify-center w-40 h-40 xs:w-48 xs:h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 xl:w-80 xl:h-80">
                           <img
                             src={getImageUrl(selectedMedicament.images[currentImageIndex])}
                             alt={selectedMedicament.nom}
                             className="max-w-full max-h-full object-contain rounded"
-                            onError={(e) => {
-                              e.target.src = '/placeholder-image.jpg';
-                            }}
                           />
                         </div>
 
@@ -564,13 +559,13 @@ function Medicaments() {
                           onClick={handleNextImage}
                           className="p-2 hover:bg-gray-200 rounded transition-colors"
                         >
-                          <ChevronRight size={24} />
+                          <ChevronRight size={20} className="sm:w-6 sm:h-6" />
                         </button>
                       </div>
                       
-                      {/* Indicateurs d'images */}
+                      {/* Indicateur d'image pour mobile */}
                       {selectedMedicament.images.length > 1 && (
-                        <div className="flex justify-center space-x-2">
+                        <div className="sm:hidden flex justify-center space-x-2">
                           {selectedMedicament.images.map((_, index) => (
                             <div
                               key={index}
@@ -583,47 +578,79 @@ function Medicaments() {
                       )}
                     </div>
                   ) : (
-                    <div className="text-gray-400 text-center py-12">
-                      <Pill size={48} className="mx-auto mb-4" />
-                      <p>Aucune image disponible</p>
+                    <div className="text-gray-400 text-center py-8 sm:py-12">
+                      <Pill size={28} className="sm:w-10 sm:h-10 mx-auto mb-2" />
+                      <p className="text-sm sm:text-base">Aucune image disponible</p>
                     </div>
                   )}
                 </div>
 
                 {/* Section informations */}
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-bold">{selectedMedicament.nom}</h3>
+                <div className="bg-white rounded-lg border p-3 sm:p-4 lg:p-6">
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4">
+                    {selectedMedicament.nom}
+                  </h3>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    {/* Colonne gauche */}
                     <div className="space-y-3">
                       <div>
-                        <p className="font-semibold text-sm">Dosage</p>
-                        <p className="text-gray-700">{selectedMedicament.dosage || "N/A"}</p>
+                        <p className="font-semibold text-xs sm:text-sm">Composition</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.dosage}
+                        </p>
                       </div>
                       <div>
-                        <p className="font-semibold text-sm">Prix</p>
-                        <p className="text-gray-700">{selectedMedicament.prix} FCFA</p>
+                        <p className="font-semibold text-xs sm:text-sm">Fabriquant/commerçant</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.fabricant || "Non renseigné"}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-xs sm:text-sm">Type de consommation</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.type_consommation || "Non renseigné"}
+                        </p>
                       </div>
                     </div>
-                    <div className="space-y-3">
-                      <div>
-                        <p className="font-semibold text-sm">Stock</p>
-                        <p className="text-gray-700">{selectedMedicament.stock}</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-sm">Groupe</p>
-                        <p className="text-gray-700">{selectedMedicament.groupe || "N/A"}</p>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div>
-                    <p className="font-semibold text-sm mb-2">Description</p>
-                    <p className="text-gray-700">
-                      {selectedMedicament.description || "Pas de description disponible."}
-                    </p>
+                    {/* Colonne droite */}
+                    <div className="space-y-3">
+                      <div>
+                        <p className="font-semibold text-xs sm:text-sm">Date d'expiration</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.expiration || "Non renseignée"}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-xs sm:text-sm">Prix</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.prix} FCFA
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-xs sm:text-sm">Stock</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.stock}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-xs sm:text-sm">Groupe</p>
+                        <p className="text-gray-700 text-xs sm:text-sm mt-1">
+                          {selectedMedicament.groupe}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Section description */}
+              <div className="bg-white rounded-lg border p-3 sm:p-4 lg:p-6">
+                <h3 className="font-semibold mb-2 text-sm sm:text-base">Description :</h3>
+                <p className="text-gray-700 leading-relaxed text-lg sm:text-lg">
+                  {selectedMedicament.description || "Pas de description disponible."}
+                </p>
               </div>
             </div>
           </div>
