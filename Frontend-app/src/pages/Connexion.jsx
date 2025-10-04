@@ -31,7 +31,9 @@ function Connexion() {
       await api.get("/sanctum/csrf-cookie");
 
       // Login
-      await api.post("/login", form);
+      // await api.post("/login", form);
+      await api.post("/api/login", form);
+
 
       // Accéder à l'utilisateur connecté (optionnel)
       const user = await api.get("/user");
