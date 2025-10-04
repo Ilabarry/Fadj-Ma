@@ -1,23 +1,40 @@
-import axios from "axios";
+import axios from 'axios';
+
+const API_BASE_URL = 'https://fadj-ma-production.up.railway.app';
 
 const api = axios.create({
-  baseURL: "https://fadj-ma-production.up.railway.app", // ton backend Railway
-  withCredentials: true, // essentiel pour Sanctum / cookies
+  baseURL: API_BASE_URL,
+  withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
   },
 });
 
-// Interceptor pour ajouter automatiquement le token si présent
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+// Intercepteur pour ajouter le token
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+);
+
+// Intercepteur pour les réponses
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;
