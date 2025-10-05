@@ -83,7 +83,7 @@ function NavMedicaments() {
   };
 
   return (
-    <div className="px-4 sm:px-8 md:px-8 lg:px-6 xl:px-20 bg-gray-900">
+    <div className="px-4 sm:px-8 md:px-8 lg:px-6 xl:px-12 bg-gray-900">
       <div className="flex max-h-screen bg-gray-100">
         {/* Sidebar desktop */}
         <div className="hidden lg:flex lg:flex-shrink-0">
