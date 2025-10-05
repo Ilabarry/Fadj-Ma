@@ -22,8 +22,9 @@ function Inscription() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
+    
     try {
-      // ✅ Direct sans sanctum/csrf-cookie
+      console.log("Données envoyées:", form);
       await api.post("/api/register", form);
 
       console.log("Compte créé avec succès !");
@@ -32,7 +33,7 @@ function Inscription() {
       if (err.response?.data?.errors) {
         setErrors(err.response.data.errors);
       } else {
-        alert("Erreur lors de l'inscription");
+        alert("Erreur lors de l'inscription: " + (err.response?.data?.message || "Erreur serveur"));
       }
     }
   };
@@ -87,6 +88,7 @@ function Inscription() {
                 value={form.prenom}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+                required
               />
               {errors.prenom && <p className="text-red-500 text-sm mt-1">{errors.prenom[0]}</p>}
             </div>
@@ -101,6 +103,7 @@ function Inscription() {
                 value={form.nom}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+                required
               />
               {errors.nom && <p className="text-red-500 text-sm mt-1">{errors.nom[0]}</p>}
             </div>
@@ -110,59 +113,19 @@ function Inscription() {
             <label className="block text-sm sm:text-base font-bold mb-2 text-gray-700">
               Date de naissance
             </label>
-            <div className="grid grid-cols-3 gap-2 sm:gap-4">
-              {/* Jour */}
-              <select
-                name="jour"
-                value={form.jour || ""}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
-              >
-                <option value="">JJ</option>
-                {[...Array(31)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-              </select>
-
-              {/* Mois */}
-              <select
-                name="mois"
-                value={form.mois || ""}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
-              >
-                <option value="">MM</option>
-                {[...Array(12)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {String(i + 1).padStart(2, "0")}
-                  </option>
-                ))}
-              </select>
-
-              {/* Année */}
-              <select
-                name="annee"
-                value={form.annee || ""}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
-              >
-                <option value="">AAAA</option>
-                {Array.from(
-                  { length: 100 },
-                  (_, i) => new Date().getFullYear() - i
-                ).map((year) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <input
+              type="date"
+              name="date_naissance"
+              value={form.date_naissance}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+              required
+            />
             {errors.date_naissance && (
               <p className="text-red-500 text-sm mt-1">{errors.date_naissance[0]}</p>
             )}
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block text-sm sm:text-base font-bold mb-2 text-gray-700">
@@ -175,6 +138,7 @@ function Inscription() {
                 value={form.email}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+                required
               />
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>}
             </div>
@@ -189,6 +153,8 @@ function Inscription() {
                 value={form.password}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+                required
+                minLength="6"
               />
               {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password[0]}</p>}
             </div>
@@ -205,6 +171,8 @@ function Inscription() {
               value={form.password_confirmation}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+              required
+              minLength="6"
             />
           </div>
 
