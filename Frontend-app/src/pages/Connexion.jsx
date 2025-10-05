@@ -157,7 +157,7 @@ function Connexion() {
                     value={resetForm.email}
                     onChange={(e) => setResetForm({ ...resetForm, email: e.target.value })}
                     placeholder="Votre email"
-                    className="w-full border border-gray-300 rounded-xl p-4 text-lg focus:ring-3 focus:ring-blue-200 focus:border-blue-400"
+                    className="w-full border border-gray-300 rounded-xl p-2 text-lg focus:ring-3 focus:ring-blue-200 focus:border-blue-400"
                     required
                   />
                 </div>
@@ -172,7 +172,7 @@ function Connexion() {
                     value={resetForm.password}
                     onChange={(e) => setResetForm({ ...resetForm, password: e.target.value })}
                     placeholder="Nouveau mot de passe"
-                    className="w-full border border-gray-300 rounded-xl p-4 text-lg focus:ring-3 focus:ring-blue-200 focus:border-blue-400"
+                    className="w-full border border-gray-300 rounded-xl p-2 text-lg focus:ring-3 focus:ring-blue-200 focus:border-blue-400"
                     required
                   />
                 </div>
@@ -189,7 +189,7 @@ function Connexion() {
                       setResetForm({ ...resetForm, password_confirmation: e.target.value })
                     }
                     placeholder="Confirmez le mot de passe"
-                    className="w-full border border-gray-300 rounded-xl p-4 text-lg focus:ring-3 focus:ring-blue-200 focus:border-blue-400"
+                    className="w-full border border-gray-300 rounded-xl p-2 text-lg focus:ring-3 focus:ring-blue-200 focus:border-blue-400"
                     required
                   />
                 </div>
