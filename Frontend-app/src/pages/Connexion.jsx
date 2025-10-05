@@ -47,7 +47,7 @@ function Connexion() {
     e.preventDefault();
     setResetMessage("");
     try {
-      await api.post("/reset-password-direct", resetForm);
+      await api.post("/api/reset-password-direct", resetForm);
       setResetMessage("Mot de passe réinitialisé avec succès !");
       setResetSuccess(true);
     } catch (err) {
