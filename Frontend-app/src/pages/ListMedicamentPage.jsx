@@ -171,12 +171,28 @@ function Medicaments() {
     }
   };
 
+  // const getImageUrl = (imagePath) => {
+  //   if (!imagePath) return null;
+  //   if (imagePath.startsWith('http')) return imagePath;
+  //   const baseUrl = 'https://fadj-ma-production.up.railway.app';
+  //   return `${baseUrl}/storage/${imagePath}`;
+  // };
   const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    if (imagePath.startsWith('http')) return imagePath;
+  if (!imagePath) return null;
+  
+  // Si c'est une URL complète
+  if (imagePath.startsWith('http')) return imagePath;
+  
+  // Si le chemin commence déjà par "medicaments/"
+  if (imagePath.startsWith('medicaments/')) {
     const baseUrl = 'https://fadj-ma-production.up.railway.app';
     return `${baseUrl}/storage/${imagePath}`;
-  };
+  }
+  
+  // Si c'est juste un nom de fichier
+  const baseUrl = 'https://fadj-ma-production.up.railway.app';
+  return `${baseUrl}/storage/medicaments/${imagePath}`;
+};
 
   const selectedFilesText = formData.images.length > 0 
     ? `${formData.images.length} fichier(s) sélectionné(s)`
