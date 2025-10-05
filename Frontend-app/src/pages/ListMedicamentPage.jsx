@@ -277,9 +277,9 @@ function Medicaments() {
                     <th className="px-3 sm:px-4 py-3 text-gray-700 font-bold text-sm sm:text-base">
                       Nom du médicament
                     </th>
-                    <th className="px-3 sm:px-4 py-3 text-gray-700 font-bold text-sm sm:text-base">ID</th>
-                    <th className="px-3 sm:px-4 py-3 text-gray-700 font-bold text-sm sm:text-base">Groupe</th>
-                    <th className="px-3 sm:px-4 py-3 text-gray-700 font-bold text-sm sm:text-base">Stock</th>
+                    <th className="px-3 sm:px-4 py-3 text-gray-700 font-bold text-sm sm:text-base">ID du médicament</th>
+                    <th className="px-3 sm:px-4 py-3 text-gray-700 font-bold text-sm sm:text-base">Nom groupe</th>
+                    <th className="px-3 sm:px-4 py-3 text-gray-700 font-bold text-sm sm:text-base">Stock en quantité</th>
                     <th className="px-3 sm:px-4 py-3 text-gray-700 font-bold text-sm sm:text-base">Action</th>
                   </tr>
                 </thead>
@@ -299,7 +299,7 @@ function Medicaments() {
                         className="px-3 sm:px-4 py-3 text-blue-600 font-bold cursor-pointer hover:text-blue-800 text-sm"
                         onClick={() => handleShowDetails(med)}
                       >
-                        Voir détails »
+                        Voir tous les détails »
                       </td>
                     </tr>
                   ))}
@@ -536,7 +536,7 @@ function Medicaments() {
             {/* Contenu scrollable */}
             <div className="flex-1 overflow-y-auto p-1 sm:p-4 lg:p-6 space-y-6">
               
-              {/* ✅ LIGNE 1 : Section image + Section informations */}
+              {/*  Section image + Section informations */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Section image */}
                 <div className="bg-white rounded-lg border p-6 flex items-center justify-center">
