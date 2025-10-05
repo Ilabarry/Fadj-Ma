@@ -27,9 +27,26 @@ Route::get('/storage/{path}', function ($path) {
     return response($file, 200)->header('Content-Type', $type);
 })->where('path', '.*');
 
+Route::get('/media/{filename}', function ($filename) {
+    $path = 'medicaments/' . $filename;
+    
+    if (!Storage::disk('public')->exists($path)) {
+        abort(404, "File not found: " . $path);
+    }
+    
+    $file = Storage::disk('public')->get($path);
+    $type = Storage::disk('public')->mimeType($path);
+    
+    return response($file, 200)
+        ->header('Content-Type', $type)
+        ->header('Access-Control-Allow-Origin', '*');
+});
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('medicaments', MedicamentController::class);
     Route::get('/dashboard-stats', [DashboardController::class, 'stats']);
 });
+
+

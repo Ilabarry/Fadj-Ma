@@ -175,18 +175,19 @@ function Medicaments() {
   console.log("👉 ImagePath reçu :", imagePath);
 
   if (!imagePath) {
-    console.warn("⚠️ Aucun chemin d'image fourni");
     return null;
   }
 
   if (imagePath.startsWith('http')) {
-    console.log("✅ L'image est déjà une URL absolue :", imagePath);
     return imagePath;
   }
 
   const baseUrl = 'https://fadj-ma-production.up.railway.app';
-  const finalUrl = `${baseUrl}/storage/${imagePath}`;
-
+  
+  // Extrait juste le nom du fichier du chemin complet
+  const filename = imagePath.split('/').pop();
+  const finalUrl = `${baseUrl}/api/media/${filename}`;
+  
   console.log("🔗 URL finale générée :", finalUrl);
   return finalUrl;
 };
