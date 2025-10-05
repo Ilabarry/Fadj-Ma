@@ -97,9 +97,11 @@ function TableauDeBord() {
             </div>
             <h3 className="font-bold text-gray-700 text-center text-lg sm:text-xl">Bien</h3>
             <p className="text-center text-gray-600 text-sm sm:text-base">Statut de l'inventaire</p>
-            <button className="flex justify-center items-center w-full bg-green-300 text-gray-600 border border-green-400 py-2 px-1 rounded hover:text-white transition-colors text-sm sm:text-base gap-1">
-              Afficher le rapport détaillé <ChevronsRight size={16} />
+            <button className="flex items-center justify-center w-full bg-green-300 text-gray-600 border border-green-400 py-2 px-1 rounded hover:text-white transition-colors text-sm sm:text-base gap-2">
+              <span>Afficher le rapport détaillé</span>
+              <ChevronsRight size={18} />
             </button>
+
           </div>
         </div>       
 
@@ -111,9 +113,11 @@ function TableauDeBord() {
             </div>
             <h3 className="font-bold text-gray-700 text-center text-lg sm:text-xl">4.800.432</h3>
             <p className="text-center text-gray-600 text-sm sm:text-base"><b>revenu:</b> Janvier 2022</p>
-            <button className="flex justify-center items-center w-full bg-yellow-300 text-gray-600 border border-yellow-400 py-2 px-1 rounded hover:text-white transition-colors text-sm sm:text-base gap-1">
-              Afficher le rapport détaillé <ChevronsRight size={16} />
+            <button className="flex items-center justify-center w-full bg-yellow-300 text-gray-600 border border-yellow-400 py-2 px-1 rounded hover:text-white transition-colors text-sm sm:text-base gap-2">
+              <span>Afficher le rapport détaillé</span>
+              <ChevronsRight size={18} />
             </button>
+
           </div>
         </div>
 
