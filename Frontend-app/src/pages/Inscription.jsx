@@ -86,7 +86,7 @@ function Inscription() {
                 placeholder="Votre prénom"
                 value={form.prenom}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+                className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
               />
               {errors.prenom && <p className="text-red-500 text-sm mt-1">{errors.prenom[0]}</p>}
             </div>
@@ -100,72 +100,69 @@ function Inscription() {
                 placeholder="Votre nom"
                 value={form.nom}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+                className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
               />
               {errors.nom && <p className="text-red-500 text-sm mt-1">{errors.nom[0]}</p>}
             </div>
           </div>
 
           <div>
-  <label className="block text-sm sm:text-base font-bold mb-2 text-gray-700">
-    Date de naissance
-  </label>
-  <div className="grid grid-cols-3 gap-2 sm:gap-4">
-    {/* Jour */}
-    <select
-      name="jour"
-      value={form.jour || ""}
-      onChange={handleChange}
-      className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
-    >
-      <option value="">JJ</option>
-      {[...Array(31)].map((_, i) => (
-        <option key={i + 1} value={i + 1}>
-          {i + 1}
-        </option>
-      ))}
-    </select>
+            <label className="block text-sm sm:text-base font-bold mb-2 text-gray-700">
+              Date de naissance
+            </label>
+            <div className="grid grid-cols-3 gap-2 sm:gap-4">
+              {/* Jour */}
+              <select
+                name="jour"
+                value={form.jour || ""}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+              >
+                <option value="">JJ</option>
+                {[...Array(31)].map((_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1}
+                  </option>
+                ))}
+              </select>
 
-    {/* Mois */}
-    <select
-      name="mois"
-      value={form.mois || ""}
-      onChange={handleChange}
-      className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
-    >
-      <option value="">MM</option>
-      {[...Array(12)].map((_, i) => (
-        <option key={i + 1} value={i + 1}>
-          {String(i + 1).padStart(2, "0")}
-        </option>
-      ))}
-    </select>
+              {/* Mois */}
+              <select
+                name="mois"
+                value={form.mois || ""}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+              >
+                <option value="">MM</option>
+                {[...Array(12)].map((_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {String(i + 1).padStart(2, "0")}
+                  </option>
+                ))}
+              </select>
 
-    {/* Année */}
-    <select
-      name="annee"
-      value={form.annee || ""}
-      onChange={handleChange}
-      className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
-    >
-      <option value="">AAAA</option>
-      {Array.from(
-        { length: 100 },
-        (_, i) => new Date().getFullYear() - i
-      ).map((year) => (
-        <option key={year} value={year}>
-          {year}
-        </option>
-      ))}
-    </select>
-  </div>
-  {errors.date_naissance && (
-    <p className="text-red-500 text-sm mt-1">{errors.date_naissance[0]}</p>
-  )}
-</div>
-
-
-
+              {/* Année */}
+              <select
+                name="annee"
+                value={form.annee || ""}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+              >
+                <option value="">AAAA</option>
+                {Array.from(
+                  { length: 100 },
+                  (_, i) => new Date().getFullYear() - i
+                ).map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {errors.date_naissance && (
+              <p className="text-red-500 text-sm mt-1">{errors.date_naissance[0]}</p>
+            )}
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block text-sm sm:text-base font-bold mb-2 text-gray-700">
@@ -177,7 +174,7 @@ function Inscription() {
                 placeholder="votre@email.com"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+                className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
               />
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>}
             </div>
@@ -191,7 +188,7 @@ function Inscription() {
                 placeholder="Votre mot de passe"
                 value={form.password}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+                className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
               />
               {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password[0]}</p>}
             </div>
@@ -207,13 +204,13 @@ function Inscription() {
               placeholder="Confirmez votre mot de passe"
               value={form.password_confirmation}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+              className="w-full border border-gray-300 rounded-lg p-2 sm:p-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-300 text-gray-800 font-bold py-4 rounded-lg hover:bg-blue-300 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors duration-200 text-lg sm:text-base"
+            className="w-full bg-blue-300 text-gray-800 font-bold py-2 rounded-lg hover:bg-blue-300 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors duration-200 text-lg sm:text-base"
           >
             Créer mon compte
           </button>
