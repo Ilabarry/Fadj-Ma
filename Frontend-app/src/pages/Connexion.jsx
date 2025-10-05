@@ -210,13 +210,13 @@ function Connexion() {
                   <button
                     type="button"
                     onClick={closeResetModal}
-                    className="px-6 py-3 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition duration-200 font-semibold"
+                    className="px-6 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition duration-200 font-semibold"
                   >
                     Annuler
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-3 rounded-xl bg-blue-400 text-white hover:bg-blue-500 transition duration-200 font-semibold"
+                    className="px-6 py-2 rounded-xl bg-blue-400 text-white hover:bg-blue-500 transition duration-200 font-semibold"
                   >
                     Réinitialiser
                   </button>
