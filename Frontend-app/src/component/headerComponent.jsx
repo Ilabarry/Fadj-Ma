@@ -14,6 +14,7 @@ import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom"
 import TableauDeBord from "../pages/DashBord";
 import Medicaments from "../pages/ListMedicamentPage";
 import { authService } from "../services/authService";
+import Logo from "../assets/Logo.png"
 
 function NavMedicaments() {
   const [sidebarOpen, setSidebarOpen] = useState(false); 
@@ -88,7 +89,12 @@ function NavMedicaments() {
         <div className="hidden lg:flex lg:flex-shrink-0">
           <div className="flex flex-col w-52 bg-gray-700 border-r border-gray-700">
             <div className="flex items-center justify-center h-16 px-4 border-b bg-gray-800 border-gray-700">
-              <h1 className="text-xl font-bold text-white">Fadj-Ma</h1>
+              <h1 className="text-xl font-bold text-white">
+                <span className="flex items-center justify-center gap-2">
+                  <img src={Logo} alt="Logo" className="h-11 w-auto" />
+                  <b>Fadj-Ma</b>
+                </span>
+              </h1>
             </div>
 
             {/* Profil */}

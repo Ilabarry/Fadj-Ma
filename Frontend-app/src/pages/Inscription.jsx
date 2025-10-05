@@ -107,18 +107,64 @@ function Inscription() {
           </div>
 
           <div>
-            <label className="block text-sm sm:text-base font-bold mb-2 text-gray-700">
-              Date de naissance
-            </label>
-            <input
-              type="date"
-              name="date_naissance"
-              value={form.date_naissance}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
-            />
-            {errors.date_naissance && <p className="text-red-500 text-sm mt-1">{errors.date_naissance[0]}</p>}
-          </div>
+  <label className="block text-sm sm:text-base font-bold mb-2 text-gray-700">
+    Date de naissance
+  </label>
+  <div className="grid grid-cols-3 gap-2 sm:gap-4">
+    {/* Jour */}
+    <select
+      name="jour"
+      value={form.jour || ""}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+    >
+      <option value="">JJ</option>
+      {[...Array(31)].map((_, i) => (
+        <option key={i + 1} value={i + 1}>
+          {i + 1}
+        </option>
+      ))}
+    </select>
+
+    {/* Mois */}
+    <select
+      name="mois"
+      value={form.mois || ""}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+    >
+      <option value="">MM</option>
+      {[...Array(12)].map((_, i) => (
+        <option key={i + 1} value={i + 1}>
+          {String(i + 1).padStart(2, "0")}
+        </option>
+      ))}
+    </select>
+
+    {/* Année */}
+    <select
+      name="annee"
+      value={form.annee || ""}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent text-sm sm:text-base"
+    >
+      <option value="">AAAA</option>
+      {Array.from(
+        { length: 100 },
+        (_, i) => new Date().getFullYear() - i
+      ).map((year) => (
+        <option key={year} value={year}>
+          {year}
+        </option>
+      ))}
+    </select>
+  </div>
+  {errors.date_naissance && (
+    <p className="text-red-500 text-sm mt-1">{errors.date_naissance[0]}</p>
+  )}
+</div>
+
+
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div>

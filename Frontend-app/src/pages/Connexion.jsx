@@ -64,8 +64,8 @@ function Connexion() {
   };
 
   return (
-    <div className="min-h-full flex items-center justify-center bg-gray-100 px-4 py-8">
-      <div className="max-w-lg w-full bg-white rounded-2xl shadow-sm p-8 sm:p-10 lg:p-12">
+    <div className="min-h-full flex items-center justify-center bg-gray-100 px-4 py-6">
+      <div className="max-w-lg w-full bg-white rounded-2xl shadow-sm p-4 sm:p-10 lg:p-12">
         <h1 className="text-3xl sm:text-4xl font-bold text-center mb-2 sm:mb-8 text-gray-800">
           Connexion
         </h1>
@@ -78,7 +78,7 @@ function Connexion() {
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-xl p-4 text-lg focus:outline-none focus:ring-3 focus:ring-blue-200 focus:border-blue-400 transition duration-200"
+              className="w-full border border-gray-300 rounded-xl p-2 text-lg focus:outline-none focus:ring-3 focus:ring-blue-200 focus:border-blue-400 transition duration-200"
               required
             />
           </div>
@@ -90,7 +90,7 @@ function Connexion() {
               name="password"
               value={form.password}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-xl p-4 text-lg focus:outline-none focus:ring-3 focus:ring-blue-200 focus:border-blue-400 transition duration-200"
+              className="w-full border border-gray-300 rounded-xl p-2 text-lg focus:outline-none focus:ring-3 focus:ring-blue-200 focus:border-blue-400 transition duration-200"
               required
             />
             <div className="flex justify-end mt-3">
@@ -105,7 +105,7 @@ function Connexion() {
           </div>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+            <div className="bg-red-50 border border-red-200 rounded-xl p-1">
               <p className="text-red-600 text-center font-medium">{error}</p>
             </div>
           )}
@@ -113,12 +113,12 @@ function Connexion() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-300 text-gray-800 py-4 rounded-xl hover:bg-blue-400 font-bold text-lg transition duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full bg-blue-300 text-gray-800 py-2 rounded-xl hover:bg-blue-400 font-bold text-lg transition duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {loading ? "Connexion en cours..." : "Se connecter"}
           </button>
 
-          <div className="text-center pt-4">
+          <div className="text-center pt-2">
             <p className="text-gray-600">
               Pas de compte ?{" "}
               <Link 

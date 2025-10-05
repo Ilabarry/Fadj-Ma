@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/Logo.png"
 
 function Navigation() {
 
@@ -16,9 +17,14 @@ function Navigation() {
   return (
     <div>
       <header className="bg-gray-700 py-4 sm:py-6 text-center m-0">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-wide px-4">
-          Bienvenue chez votre pharmacie <br className="hidden xs:block" /> Faj-Ma
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-wide px-4 flex flex-col items-center gap-2">
+          <b>Bienvenue chez votre pharmacie</b>
+          <span className="flex items-center justify-center gap-2">
+            <img src={Logo} alt="Logo" className="h-11 w-auto" />
+            <b>Fadj-Ma</b>
+          </span>
         </h1>
+
       </header>
 
       <nav className="bg-gray-100 m-0">

@@ -5,7 +5,7 @@ import Navigation from '../component/navigationComponent';
 
 function LogPage(){
     return(
-        <div className='px-4 sm:px-8 md:px-16 lg:px-32 xl:px-60 bg-gray-800'>
+        <div className='px-4 sm:px-8 md:px-16 lg:px-12 xl:px-20 bg-gray-800'>
             <div className='min-h-screen bg-gray-100'>
                 <Navigation />
                 <Routes>
