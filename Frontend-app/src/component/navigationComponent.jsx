@@ -47,7 +47,7 @@ function Navigation() {
           <Link
             to="/inscription"
             onClick={handleInscriptiononclick}
-            className={`text-gray-800 text-base sm:text-lg lg:text-xl font-medium active:text-teal-600 transition-colors duration-200 border-2 border-gray-500 px-10 sm:px-8 lg:px-16 py-4 sm:py-3 lg:py-3 rounded-lg text-center w-full sm:w-auto
+            className={`text-gray-800 text-base sm:text-lg lg:text-xl font-medium active:text-teal-600 transition-colors duration-200 border-2 border-gray-500 px-10 sm:px-8 lg:px-16 py-2 sm:py-4 lg:py-3 rounded-lg text-center w-full sm:w-auto
           
                   ${
                     ActiveButton === "inscription"
