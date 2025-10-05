@@ -338,11 +338,11 @@ function Medicaments() {
         )}
       </div>
 
-      {/* ✅ STRUCTURE PRINCIPALE POUR LE FORMULAIRE - NE PAS MODIFIER */}
+      {/* STRUCTURE PRINCIPALE POUR LE FORMULAIRE  */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-2 sm:p-4">
           <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-4 sm:p-6 border-b sticky top-0 bg-white">
+            <div className="flex items-center justify-between p-2 sm:p-2 border-b sticky top-0 bg-white">
               <h2 className="text-lg sm:text-xl font-bold text-gray-800">
                 Nouveau médicament
               </h2>
@@ -356,11 +356,11 @@ function Medicaments() {
 
             <form onSubmit={handleSubmit} className="p-4 sm:p-6">
               {/* Section Upload images */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-4">
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Ajouter des images
                 </label>
-                <div className="shadow-lg border-2 border-gray-300 rounded-lg p-4 sm:p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors w-full">
+                <div className="shadow-lg border-2 border-gray-300 rounded-lg p-2 sm:p-2 text-center cursor-pointer hover:bg-gray-50 transition-colors w-full">
                   <input
                     type="file"
                     name="images"
@@ -398,14 +398,14 @@ function Medicaments() {
 
               {/* Section obligatoire */}
               <div className="mb-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
                   obligatoires
                 </h3>
-                <p className="text-lg text-gray-600 mb-4">
+                <p className="text-lg text-gray-600 mb-2">
                   Donnez plus de details possible
                 </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Nom du médicament
@@ -515,13 +515,13 @@ function Medicaments() {
         </div>
       )}
 
-      {/* ✅ STRUCTURE PRINCIPALE POUR LES DÉTAILS - NE PAS MODIFIER */}
+      {/* STRUCTURE PRINCIPALE POUR LES DÉTAILS  */}
       {showDetailsModal && selectedMedicament && (
-        <div className="fixed inset-0 flex items-center justify-center z-[10000] mt-20 p-2 lg:px-24 sm:px-12 bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center z-[10000] mt-20 p-2 md:px-4 lg:px-8 sm:px-12 bg-black bg-opacity-50">
           <div className="bg-gray-100 rounded-lg w-full h-full sm:h-[92vh] sm:max-w-screen-xl xl:max-w-screen-2xl flex flex-col m-0 sm:m-4">
             
             {/* En-tête */}
-            <div className="flex items-center justify-between p-4 sm:p-6 border-b bg-gray-50 rounded-t-lg">
+            <div className="flex items-center justify-between p-2 sm:p-4 border-b bg-gray-50 rounded-t-lg">
               <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
                 Détails du médicament
               </h2>
@@ -534,7 +534,7 @@ function Medicaments() {
             </div>
 
             {/* Contenu scrollable */}
-            <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 space-y-6">
+            <div className="flex-1 overflow-y-auto p-1 sm:p-4 lg:p-6 space-y-6">
               
               {/* ✅ LIGNE 1 : Section image + Section informations */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -580,23 +580,42 @@ function Medicaments() {
                       <p className="font-semibold text-sm">Composition</p>
                       <p className="text-gray-700">{selectedMedicament.dosage}</p>
                     </div>
+
                     <div>
                       <p className="font-semibold text-sm">Prix</p>
                       <p className="text-gray-700">{selectedMedicament.prix} FCFA</p>
                     </div>
+
                     <div>
                       <p className="font-semibold text-sm">Stock</p>
                       <p className="text-gray-700">{selectedMedicament.stock}</p>
                     </div>
+
                     <div>
                       <p className="font-semibold text-sm">Groupe</p>
                       <p className="text-gray-700">{selectedMedicament.groupe}</p>
                     </div>
+
+                    <div>
+                      <p className="font-semibold text-sm">Fabriquant / commerçant</p>
+                      <p className="text-gray-700">{selectedMedicament.fabricant || "Non renseigné"}</p>
+                    </div>
+
+                    <div>
+                      <p className="font-semibold text-sm">Type de consommation</p>
+                      <p className="text-gray-700">{selectedMedicament.type_consommation || "Non renseigné"}</p>
+                    </div>
+
+                    <div>
+                      <p className="font-semibold text-sm">Date d'expiration</p>
+                      <p className="text-gray-700">{selectedMedicament.expiration || "Non renseignée"}</p>
+                    </div>
                   </div>
                 </div>
+
               </div>
 
-              {/* ✅ LIGNE 2 : Section description (100% largeur) */}
+              {/*  Section description */}
               <div className="bg-white rounded-lg border p-6">
                 <h3 className="font-semibold mb-2">Description :</h3>
                 <p className="text-gray-700 leading-relaxed">
